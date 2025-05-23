@@ -1,24 +1,14 @@
-const express = require('express');
+// routes/routes.js
+import express from 'express';
+import usersRoutes from './users.routes.js';
 
-module.exports = (db) => {
+export default () => {
   const router = express.Router();
-
-  // Rota raiz
-  router.get('/', (req, res) => {
+  router.get('/', () => {
     res.send('API funcionando com Firebase Admin!!!');
   });
 
-  // Rota: GET /users
-  router.get('/users', async (req, res) => {
-    try {
-      const snapshot = await db.collection('users').get();
-      const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      res.send(users);
-    } catch (error) {
-      res.status(500).send(error.message);
-    }
-  });
-
+  router.use(usersRoutes());
 
   return router;
 };
