@@ -1,4 +1,4 @@
-import { db } from '../config/firebase.config.js'; // Importa o db já inicializado
+import { db } from '../config/firebase.config.js';
 
 
 export class UsersService {

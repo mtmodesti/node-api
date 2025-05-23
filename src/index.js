@@ -1,6 +1,6 @@
-import 'dotenv/config'; // ES Modules aceita isso direto
+import 'dotenv/config';
 import express from 'express';
-import routes from './routes/routes.js'; // Use a extensão `.js` obrigatoriamente
+import routes from './routes/routes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
