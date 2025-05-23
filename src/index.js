@@ -18,7 +18,7 @@ const db = admin.firestore();
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('API funcionando com Firebase Admin!');
+  res.send('API funcionando com Firebase Admin!!!');
 });
 
 app.get('/users', async (req, res) => {
