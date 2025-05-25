@@ -4,7 +4,7 @@ import usersRoutes from './users.routes.js';
 export default () => {
   const router = express.Router();
   router.get('/', (req, res) => {
-    res.send('Crud Users Updated');
+    res.send('Cors Updated');
   });
 
   router.use(usersRoutes());
