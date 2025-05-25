@@ -6,9 +6,9 @@ export default () => {
 
     router.get('/users', UsersController.getAll);
     router.get('/users/:id', UsersController.getById);
+    router.post('/users/email', UsersController.getByEmail);
     router.post('/users', UsersController.create);
     router.put('/users/:id', UsersController.update);
     router.delete('/users/:id', UsersController.delete);
-
     return router;
 };
