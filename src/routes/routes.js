@@ -9,5 +9,5 @@ export default () => {
 
   router.use(usersRoutes());
 
-  return router;
+  return router; //
 };
