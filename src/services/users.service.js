@@ -62,6 +62,23 @@ export class UsersService {
         return { id: doc.id, ...userWithoutPassword };
     }
 
+    static async getProviders({ limit = 20, page = 1 }) {
+    // Conversão para número (caso venham como string)
+    limit = parseInt(limit);
+    page = parseInt(page);
+
+    const offset = (page - 1) * limit;
+
+    const snapshot = await db.collection('users')
+        .where('role', '==', 'provider')
+        .orderBy('createdAt', 'desc') // necessário para usar offset
+        .offset(offset)
+        .limit(limit)
+        .get();
+
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
+
 
 
 }

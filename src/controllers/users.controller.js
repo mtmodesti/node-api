@@ -53,9 +53,19 @@ export class UsersController {
             const user = await UsersService.getByEmail(body);
             res.send(user);
         } catch (error) {
-            res.sstatus(500).send(error.message);
+            res.status(500).send(error.message);
         }
     }
+
+static async getProviders(req, res) {
+    try {
+        const { limit, page } = req.query;
+        const providers = await UsersService.getProviders({ limit, page });
+        res.send(providers);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
 
 
 
