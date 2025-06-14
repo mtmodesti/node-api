@@ -29,10 +29,16 @@ export class UsersService {
     }
 
     static async update(id, data) {
-        await db.collection('users').doc(id).update(data);
+        const updatedData = {
+            ...data,
+            lastUpdated: new Date()
+        };
+
+        await db.collection('users').doc(id).update(updatedData);
         const updatedDoc = await db.collection('users').doc(id).get();
         return { id: updatedDoc.id, ...updatedDoc.data() };
     }
+
 
     static async delete(id) {
         await db.collection('users').doc(id).delete();
@@ -63,21 +69,21 @@ export class UsersService {
     }
 
     static async getProviders({ limit = 20, page = 1 }) {
-    // Conversão para número (caso venham como string)
-    limit = parseInt(limit);
-    page = parseInt(page);
+        // Conversão para número (caso venham como string)
+        limit = parseInt(limit);
+        page = parseInt(page);
 
-    const offset = (page - 1) * limit;
+        const offset = (page - 1) * limit;
 
-    const snapshot = await db.collection('users')
-        .where('role', '==', 'provider')
-        .orderBy('createdAt', 'desc') // necessário para usar offset
-        .offset(offset)
-        .limit(limit)
-        .get();
+        const snapshot = await db.collection('users')
+            .where('role', '==', 'provider')
+            .orderBy('createdAt', 'desc') // necessário para usar offset
+            .offset(offset)
+            .limit(limit)
+            .get();
 
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-}
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    }
 
 
 

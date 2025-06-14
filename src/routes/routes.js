@@ -9,5 +9,5 @@ export default () => {
 
   router.use(usersRoutes());
 
-  return router; // teste
+  return router; 
 };

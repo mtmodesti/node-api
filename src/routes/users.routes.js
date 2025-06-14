@@ -3,7 +3,6 @@ import { UsersController } from '../controllers/users.controller.js';
 
 export default () => {
     const router = express.Router();
-
     router.get('/users/providers', UsersController.getProviders);
     router.post('/users/email', UsersController.getByEmail);
     router.get('/users', UsersController.getAll);
