@@ -1,7 +1,5 @@
 import { ServicesService } from "../services/services.service.js";
 
-
-
 export class ServicesController {
 
     static async getAll(req, res) {
@@ -13,5 +11,14 @@ export class ServicesController {
         }
     }
 
-
+    static async addService(req, res) {
+        try {
+            const userId = req.params.id;
+            const { category, description } = req.body;
+            const result = await ServicesService.addService(userId, category, description);
+            res.status(201).send(result);
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    }
 }
