@@ -9,11 +9,12 @@ export class ServicesService {
         return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
     }
 
-    static async addService(userId, categoryId, description) {
+    static async addService(userId, category, description, categoryId) {
         const userRef = db.collection('users').doc(userId);
         const newJob = {
             categoryId,
             description,
+            category,
             id: uuidv4(),
             createdAt: new Date().toISOString()
         };

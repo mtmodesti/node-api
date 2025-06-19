@@ -51,38 +51,46 @@ export class UsersService {
             .get();
 
         if (snapshot.empty) {
-            // Nenhum usuário com esse e-mail
             throw new Error('Invalid credentials');
         }
 
         const doc = snapshot.docs[0];
         const user = doc.data();
-
-        // Verifica a senha
         if (user.password !== body.password) {
             throw new Error('Invalid credentials');
         }
-
-        // Tudo certo: retorna usuário (sem a senha)
         const { password, ...userWithoutPassword } = user;
         return { id: doc.id, ...userWithoutPassword };
     }
 
-    static async getProviders({ limit = 20, page = 1 }) {
-        // Conversão para número (caso venham como string)
+
+    static async getProviders({ limit = 20, page = 1, withRegisteredJobs = false, categoryId = null }) { // 'null' como valor padrão
         limit = parseInt(limit);
         page = parseInt(page);
-
         const offset = (page - 1) * limit;
-
         const snapshot = await db.collection('users')
             .where('role', '==', 'provider')
-            .orderBy('createdAt', 'desc') // necessário para usar offset
+            .orderBy('createdAt', 'desc')
             .offset(offset)
             .limit(limit)
             .get();
 
-        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        let providers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        if (withRegisteredJobs === 'true') {
+            let filteredProviders = providers.filter(user =>
+                Array.isArray(user.jobsOffered) && user.jobsOffered.length > 0
+            );
+            if (categoryId && categoryId !== 'null') {
+                filteredProviders = filteredProviders.map(user => {
+                    const jobsInCategory = user.jobsOffered.filter(
+                        job => job.categoryId === categoryId
+                    );
+                    return { ...user, jobsOffered: jobsInCategory };
+                }).filter(user => user.jobsOffered.length > 0);
+            }
+            return filteredProviders;
+        }
+        return providers;
     }
 
 

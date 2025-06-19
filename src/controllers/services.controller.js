@@ -14,8 +14,8 @@ export class ServicesController {
     static async addService(req, res) {
         try {
             const userId = req.params.id;
-            const { category, description } = req.body;
-            const result = await ServicesService.addService(userId, category, description);
+            const { category, description, categoryId } = req.body;
+            const result = await ServicesService.addService(userId, category, description, categoryId);
             res.status(201).send(result);
         } catch (err) {
             res.status(500).send(err.message);

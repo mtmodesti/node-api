@@ -59,8 +59,8 @@ export class UsersController {
 
     static async getProviders(req, res) {
         try {
-            const { limit, page } = req.query;
-            const providers = await UsersService.getProviders({ limit, page });
+            const { limit, page, withRegisteredJobs, categoryId } = req.query;
+            const providers = await UsersService.getProviders({ limit, page, withRegisteredJobs, categoryId });
             res.send(providers);
         } catch (error) {
             res.status(500).send(error.message);
